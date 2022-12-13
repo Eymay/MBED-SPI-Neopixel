@@ -1,6 +1,15 @@
 #include "mbed.h"
 #include <cstdint>
 
+class neopixel{
+    SPI spi;
+    DigitalOut cs;
+
+    public:
+    initNeo()
+
+}
+
 SPI spi(D11, D12, D13); // mosi, miso, sclk
 DigitalOut cs(D10);
 
@@ -23,6 +32,7 @@ bool last_bit(uint32_t data){
     return (data & 0x00000001); 
 }
 
+void *handle;
 
 int main()
 {
@@ -34,7 +44,7 @@ int main()
     //spi.write(0xAA);
     //spi.write(0xAA);
 
-
+    initNeo(&handle);
 
     while (true) {
     uint32_t data = 0x00FF0000;
