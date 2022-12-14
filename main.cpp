@@ -17,7 +17,7 @@ int main()
     initNeo(&handle);
 
     while (true) {
-        //setNeoRGB(handle, 0x00, 0xFF, 0x00);
+        setNeoRGB(handle, 0x00, 0xFF, 0x00);
     }
      
 }

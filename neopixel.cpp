@@ -53,19 +53,20 @@ bool last_bit(uint8_t data){
 void initNeo(void **handle){
     struct neopixel_inst_t *temp = (struct neopixel_inst_t *)calloc(1, sizeof(struct neopixel_inst_t));
     //handle = (struct neopixel_inst_t *) handle;
-    temp->spi = new SPI(D11, D12, D13);
-    temp->cs = new DigitalOut(D10);
+    SPI *spi = new SPI(D11, D12, D13);
+    DigitalOut *cs = new DigitalOut(D10);
     //SPI spi(D11, D12, D13);
-    temp->spi->set_dma_usage(DMA_USAGE_ALWAYS);
+    spi->set_dma_usage(DMA_USAGE_ALWAYS);
     //spi.format(8, 3);
-    temp->spi->format(8, 1);
-    temp->spi->frequency(10000000);
-    temp->spi->write(0xFF);
+    spi->format(8, 1);
+    spi->frequency(10000000);
+    spi->write(0xFF);
     //static DigitalOut cs(D10);
 
-    //temp->spi = &spi;
-    //temp->cs = &cs;
+    temp->spi = spi;
+    temp->cs = cs;
     //handle = (void **)temp;
+
     handle = (void **) &temp;
 }
 void setNeoRGB(void *handle, uint8_t r,uint8_t g, uint8_t b){
