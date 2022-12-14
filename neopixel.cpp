@@ -1,9 +1,9 @@
-#include "neopixel.h"
 #include <cstdint>
 #include <cstdlib>
 #include <stdio.h>
 #include <stdlib.h>
 #include "mbed.h"
+#include "neopixel.h"
 //SPI spi(D11, D12, D13); // mosi, miso, sclk
 //DigitalOut cs(D10);
 /*
@@ -26,7 +26,6 @@ struct neopixel_inst_t{
     void *cs;
 };
 */
-void * handle;
 /*void neopixel_inst(){
     spi = spi(D11, D12, D13);
     cs =  cs(D10);
@@ -54,21 +53,25 @@ bool last_bit(uint8_t data){
 void initNeo(void **handle){
     struct neopixel_inst_t *temp = (struct neopixel_inst_t *)calloc(1, sizeof(struct neopixel_inst_t));
     //handle = (struct neopixel_inst_t *) handle;
-    SPI spi(D11, D12, D13);
-    spi.set_dma_usage(DMA_USAGE_ALWAYS);
+    temp->spi = new SPI(D11, D12, D13);
+    temp->cs = new DigitalOut(D10);
+    //SPI spi(D11, D12, D13);
+    temp->spi->set_dma_usage(DMA_USAGE_ALWAYS);
     //spi.format(8, 3);
-    spi.format(8, 1);
-    spi.frequency(10000000);
-    DigitalOut cs(D10);
-    temp->spi = &spi;
-    temp->cs = &cs;
+    temp->spi->format(8, 1);
+    temp->spi->frequency(10000000);
+    temp->spi->write(0xFF);
+    //static DigitalOut cs(D10);
+
+    //temp->spi = &spi;
+    //temp->cs = &cs;
     //handle = (void **)temp;
     handle = (void **) &temp;
 }
 void setNeoRGB(void *handle, uint8_t r,uint8_t g, uint8_t b){
     SPI *spi_temp = ((struct neopixel_inst_t*)(handle))->spi;
     DigitalOut *cs_temp = ((struct neopixel_inst_t*)(handle))->cs;
-    spi_temp->write(0xFF);
+    //spi_temp->write(0xFF);
     uint8_t data = r;
     for (int i = 0; i < 8; i++) {
 
