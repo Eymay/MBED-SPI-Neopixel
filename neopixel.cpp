@@ -16,6 +16,7 @@ struct neopixel_inst{
 struct neopixel_inst_t{
     SPI *spi;
     DigitalOut *cs;
+    const char* str;
 };
 
 /*
@@ -51,6 +52,8 @@ bool last_bit(uint8_t data){
 }
 
 void initNeo(void **handle){
+    printf("deneme2.5\n");
+
     struct neopixel_inst_t *temp = (struct neopixel_inst_t *)calloc(1, sizeof(struct neopixel_inst_t));
     //handle = (struct neopixel_inst_t *) handle;
     SPI *spi = new SPI(D11, D12, D13);
@@ -65,11 +68,19 @@ void initNeo(void **handle){
 
     temp->spi = spi;
     temp->cs = cs;
-    //handle = (void **)temp;
+    temp->str = "deneme yazısı";
+    *handle = (void *)temp;
+    printf("deneme3\n");
+    //*handle = temp;
+    //const char* a = ((struct neopixel_inst_t*)(*handle))->str;
+    //printf("out: %s\n", a);
 
-    handle = (void **) &temp;
 }
 void setNeoRGB(void *handle, uint8_t r,uint8_t g, uint8_t b){
+    printf("setNeoRGB\n");
+    //const char* a = ((struct neopixel_inst_t*)(handle))->str;
+    //printf("out: %s\n", a);
+
     SPI *spi_temp = ((struct neopixel_inst_t*)(handle))->spi;
     DigitalOut *cs_temp = ((struct neopixel_inst_t*)(handle))->cs;
     //spi_temp->write(0xFF);
