@@ -16,7 +16,6 @@ struct neopixel_inst{
 struct neopixel_inst_t{
     SPI *spi;
     DigitalOut *cs;
-    const char* str;
 };
 
 /*
@@ -52,7 +51,7 @@ bool last_bit(uint8_t data){
 }
 
 void initNeo(void **handle){
-    printf("deneme2.5\n");
+    //printf("deneme2.5\n");
 
     struct neopixel_inst_t *temp = (struct neopixel_inst_t *)calloc(1, sizeof(struct neopixel_inst_t));
     //handle = (struct neopixel_inst_t *) handle;
@@ -63,37 +62,26 @@ void initNeo(void **handle){
     //spi.format(8, 3);
     spi->format(8, 1);
     spi->frequency(10000000);
-    spi->write(0xFF);
+    //spi->write(0xFF);
     //static DigitalOut cs(D10);
 
     temp->spi = spi;
     temp->cs = cs;
-    temp->str = "deneme yazısı";
     *handle = (void *)temp;
-    printf("deneme3\n");
+    //printf("deneme3\n");
     //*handle = temp;
     //const char* a = ((struct neopixel_inst_t*)(*handle))->str;
     //printf("out: %s\n", a);
 
 }
 void setNeoRGB(void *handle, uint8_t r,uint8_t g, uint8_t b){
-    printf("setNeoRGB\n");
+    //printf("setNeoRGB\n");
     //const char* a = ((struct neopixel_inst_t*)(handle))->str;
     //printf("out: %s\n", a);
 
     SPI *spi_temp = ((struct neopixel_inst_t*)(handle))->spi;
     DigitalOut *cs_temp = ((struct neopixel_inst_t*)(handle))->cs;
     //spi_temp->write(0xFF);
-    uint8_t data = r;
-    for (int i = 0; i < 8; i++) {
-
-            if(last_bit(r)){
-                write_one(spi_temp, cs_temp);
-            }else {
-                write_zero(spi_temp, cs_temp);
-            }
-            r = r >> 1;
-    }
     for (int i = 0; i < 8; i++) {
 
             if(last_bit(g)){
@@ -102,6 +90,15 @@ void setNeoRGB(void *handle, uint8_t r,uint8_t g, uint8_t b){
                 write_zero(spi_temp, cs_temp);
             }
             g = g >> 1;
+    }
+    for (int i = 0; i < 8; i++) {
+
+            if(last_bit(r)){
+                write_one(spi_temp, cs_temp);
+            }else {
+                write_zero(spi_temp, cs_temp);
+            }
+            r = r >> 1;
     }
     for (int i = 0; i < 8; i++) {
 
