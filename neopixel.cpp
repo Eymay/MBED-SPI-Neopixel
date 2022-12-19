@@ -32,21 +32,17 @@ struct neopixel_inst_t{
 }
 */
 
-void write_one(SPI *spi, DigitalOut *cs){
-    *cs = 0;
+inline void write_one(SPI *spi){
     spi->write(0xFC);
-    *cs = 1;
     return;
 }
 
-void write_zero(SPI *spi, DigitalOut *cs){
-    *cs = 0;
+inline void write_zero(SPI *spi){
     spi->write(0xE0);
-    *cs = 1;
     return;
 }
 
-bool last_bit(uint8_t data){
+inline bool last_bit(uint8_t data){
     return (data & 0x01); 
 }
 
@@ -85,27 +81,27 @@ void setNeoRGB(void *handle, uint8_t r,uint8_t g, uint8_t b){
     for (int i = 0; i < 8; i++) {
 
             if(last_bit(g)){
-                write_one(spi_temp, cs_temp);
+                write_one(spi_temp);
             }else {
-                write_zero(spi_temp, cs_temp);
+                write_zero(spi_temp);
             }
             g = g >> 1;
     }
     for (int i = 0; i < 8; i++) {
 
             if(last_bit(r)){
-                write_one(spi_temp, cs_temp);
+                write_one(spi_temp);
             }else {
-                write_zero(spi_temp, cs_temp);
+                write_zero(spi_temp);
             }
             r = r >> 1;
     }
     for (int i = 0; i < 8; i++) {
 
             if(last_bit(b)){
-                write_one(spi_temp, cs_temp);
+                write_one(spi_temp);
             }else {
-                write_zero(spi_temp, cs_temp);
+                write_zero(spi_temp);
             }
             b = b >> 1;
     }
