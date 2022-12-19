@@ -6,7 +6,7 @@
 //SPI spi(D11, D12, D13); // mosi, miso, sclk
 //DigitalOut cs(D10);
 
-#define fade_delay 300000
+#define fade_delay 200000
 #define fade_step 16
 
 
